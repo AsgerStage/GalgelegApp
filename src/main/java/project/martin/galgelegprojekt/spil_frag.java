@@ -94,10 +94,6 @@ public class spil_frag extends Fragment implements View.OnClickListener {
             }
         });
 
-        iw = new ImageView(getActivity());
-        iw.setImageResource(R.drawable.galge);
-        tl.addView(iw);
-
         edit = new EditText(getActivity());
         edit.setHint("Skriv ét bogstav...");
         edit.setLayoutParams(new TableLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
@@ -112,17 +108,11 @@ public class spil_frag extends Fragment implements View.OnClickListener {
         tl.addView(ll);
 
         spilIgen = new Button(getActivity());
-        spilIgen.setText("Spil igen");
-        spilIgen.setVisibility(View.INVISIBLE);
+        spilIgen.setText("Start forfra");
+        spilIgen.setVisibility(View.VISIBLE);
         tl.addView(spilIgen);
 
 
-
-        /*//Knap til at nultille score
-        resetScore = new Button(getActivity());
-        resetScore.setText("Nulstil scorer");
-        tl.addView(resetScore);
-        resetScore.setOnClickListener(this);*/
 
         gætKnap.setOnClickListener(this);
         spilIgen.setOnClickListener(this);
@@ -135,17 +125,41 @@ public class spil_frag extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         if(v == gætKnap) {
             RequestParams rp = new RequestParams();
-            rp.add("username", brugernavn);
+            rp.add("ord", edit.getText().toString());
 
-            HttpUtils.post("/galgeleg/gaetBogstav/"+brugernavn+"?ord="+edit.getText().toString(), rp, new JsonHttpResponseHandler() {
+            HttpUtils.post("/galgeleg/gaetBogstav/"+brugernavn, rp, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    // If the response is JSONObject instead of expected JSONArray
-
                     Log.d("Galge", "Response from server: " + response);
                     try {
-                        info.setText("Gæt ordet: "+response.get("key").toString());
-                    } catch (JSONException e) {
+                        RequestParams rp = new RequestParams();
+                        rp.add("username", brugernavn);
+
+                        HttpUtils.get("/galgeleg/log/"+brugernavn, rp, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                // If the response is JSONObject instead of expected JSONArray
+
+                                Log.d("Galge", "Response from server: " + response);
+                                try {
+                                    info.setText(response.get("key").toString());
+
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                Log.d("Galge", "Response from server: (onFailure)" + responseString+"Status Code: "+statusCode);
+                            }
+                        });
+
+
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
 
@@ -160,73 +174,59 @@ public class spil_frag extends Fragment implements View.OnClickListener {
 
         }
         else if(v == spilIgen){
-            getFragmentManager().popBackStack();
+            RequestParams rp = new RequestParams();
+            rp.add("username", brugernavn);
+            HttpUtils.post("/galgeleg/nulstil/"+brugernavn, rp, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    // If the response is JSONObject instead of expected JSONArray
+                    Log.d("Galge", "Response from server: " + response);
+                    try {
+                        RequestParams rp = new RequestParams();
+                        rp.add("username", brugernavn);
 
-            getFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragmentindhold, new spil_frag())
-                    .addToBackStack(null)
-                    .commit();
+                        HttpUtils.get("/galgeleg/log/"+brugernavn, rp, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                // If the response is JSONObject instead of expected JSONArray
+
+                                Log.d("Galge", "Response from server: " + response);
+                                try {
+                                    info.setText(response.get("key").toString());
+
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                Log.d("Galge", "Response from server: (onFailure)" + responseString+"Status Code: "+statusCode);
+                            }
+                        });
+
+
+                    } catch (Exception e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                    Log.d("Galge", "Response from server: (onFailure)" + responseString+"Status Code: "+statusCode);
+                }
+            });
 
         }
-        /*//Onclick metode til at nulstille scoren
-        else if(v == resetScore){
-            prefs.edit().putInt("ScoreLoose", 0).commit();
-            prefs.edit().putInt("Score", 0).commit();
-            System.out.println("Scorene er blevet nulstillet!");
-            opdaterSkærm();
-        }*/
+
 
     }
 
 
 
-       /* info.setText("Gæt ordet: " + logik.getSynligtOrd());
-        info.append("\nDu har " + logik.getAntalForkerteBogstaver() + " forkerte:" + logik.getBrugteBogstaver());
 
-        if(logik.getAntalForkerteBogstaver() != 0) {
-            if (logik.getAntalForkerteBogstaver() == 1){
-                iw.setImageResource(R.drawable.forkert1);
-                info.append("\nDu må kun lave 6 fejl mere");
-            }
-            else if(logik.getAntalForkerteBogstaver() == 2){
-                iw.setImageResource(R.drawable.forkert2);
-                info.append("\nDu må kun lave 5 fejl mere");
-            }
-            else if(logik.getAntalForkerteBogstaver() == 3){
-                iw.setImageResource(R.drawable.forkert3);
-                info.append("\nDu må kun lave 4 fejl mere");
-            }
-            else if(logik.getAntalForkerteBogstaver() == 4){
-                iw.setImageResource(R.drawable.forkert4);
-                info.append("\nDu må kun lave 3 fejl mere");
-            }
-            else if(logik.getAntalForkerteBogstaver() == 5){
-                iw.setImageResource(R.drawable.forkert5);
-                info.append("\nDu må kun lave 2 fejl mere");
-            }
-            else if(logik.getAntalForkerteBogstaver() == 6){
-                iw.setImageResource(R.drawable.forkert6);
-                info.append("\nSidste chance!!");
-            }
-            else if(logik.getAntalForkerteBogstaver() == 7)
-                iw.setImageResource(R.drawable.forkert7);
-        }
-        if (logik.erSpilletVundet()) {
-            prefs.edit().putInt("Score", prefs.getInt("Score", 0)+1).commit();
-            info.append("\nDu har vundet");
-            Toast.makeText(getActivity(), "Du har vundet", Toast.LENGTH_SHORT).show();
-            edit.setVisibility(View.INVISIBLE);
-            gætKnap.setVisibility(View.INVISIBLE);
-            spilIgen.setVisibility(View.VISIBLE);
-        }
-        if (logik.erSpilletTabt()) {
-            prefs.edit().putInt("ScoreLoose", prefs.getInt("ScoreLoose", 0)+1).commit();
-            info.append("\nDu har tabt, ordet var : " + logik.getOrdet());
-            Toast.makeText(getActivity(), "Du har tabt", Toast.LENGTH_SHORT).show();
-            edit.setVisibility(View.INVISIBLE);
-            gætKnap.setVisibility(View.INVISIBLE);
-            spilIgen.setVisibility(View.VISIBLE);
-        }
-    }*/
 }
