@@ -1,9 +1,7 @@
-package project.martin.galgelegprojekt;
+package project.martin.galgelegprojekt.fragments;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -18,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -27,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
+import project.martin.galgelegprojekt.utils.HttpUtils;
 
 
 /**
@@ -34,7 +32,6 @@ import cz.msebera.android.httpclient.Header;
  */
 
 public class spil_frag extends Fragment implements View.OnClickListener {
-    Galgelogik logik = new Galgelogik();
     private ImageView iw;
     private TextView info, scoreWin, scoreLoose;
     private Button gætKnap, spilIgen, resetScore;

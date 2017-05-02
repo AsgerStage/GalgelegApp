@@ -1,4 +1,4 @@
-package project.martin.galgelegprojekt;
+package project.martin.galgelegprojekt.utils;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;

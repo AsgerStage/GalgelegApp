@@ -1,16 +1,13 @@
-package project.martin.galgelegprojekt;
+package project.martin.galgelegprojekt.activities;
 
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.Window;
+
+import project.martin.galgelegprojekt.R;
+import project.martin.galgelegprojekt.fragments.velkomst_frag;
 
 public class MainActivity extends AppCompatActivity {
 

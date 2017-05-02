@@ -1,15 +1,12 @@
-package project.martin.galgelegprojekt;
+package project.martin.galgelegprojekt.activities;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
+
+import project.martin.galgelegprojekt.R;
+import project.martin.galgelegprojekt.fragments.indstillinger_frag;
 
 public class indstillinger_akt extends AppCompatActivity {
 

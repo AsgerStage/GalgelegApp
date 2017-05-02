@@ -1,4 +1,4 @@
-package project.martin.galgelegprojekt;
+package project.martin.galgelegprojekt.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

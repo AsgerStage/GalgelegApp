@@ -1,6 +1,5 @@
-package project.martin.galgelegprojekt;
+package project.martin.galgelegprojekt.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -14,11 +13,13 @@ import android.widget.TextView;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
+import project.martin.galgelegprojekt.R;
+import project.martin.galgelegprojekt.fragments.hovedmenu_frag;
+import project.martin.galgelegprojekt.utils.HttpUtils;
 
 /**
  * Created by Martin on 17-10-2016.
