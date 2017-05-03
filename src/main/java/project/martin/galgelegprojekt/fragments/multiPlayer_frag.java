@@ -15,11 +15,17 @@ import project.martin.galgelegprojekt.R;
 
 public class multiPlayer_frag extends Fragment implements View.OnClickListener {
     Button opretLobbyKnap, seLobbysKnap, highscoreKnap;
+    String brugernavn;
+    Bundle bundle;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rod = inflater.inflate(R.layout.multiplayer, container, false);
         getActivity().setTitle("Multiplayer");
+        bundle =this.getArguments();
+        if (bundle!=null){
+            brugernavn=bundle.get("brugernavn").toString();
+        }
 
         opretLobbyKnap = (Button) rod.findViewById(R.id.opretLobby_btn);
         seLobbysKnap = (Button) rod.findViewById(R.id.seLobbys_btn);
@@ -34,9 +40,11 @@ public class multiPlayer_frag extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if(v == seLobbysKnap){
+            lobby_frag lobby_frag = new lobby_frag();
+            lobby_frag.setArguments(bundle);
             getFragmentManager().beginTransaction()
                     .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-                    .replace(R.id.fragmentindhold, new spil_frag())
+                    .replace(R.id.fragmentindhold, lobby_frag)
                     .addToBackStack(null)
                     .commit();
         }

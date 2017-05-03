@@ -32,9 +32,8 @@ import project.martin.galgelegprojekt.utils.HttpUtils;
  */
 
 public class mp_spil_frag extends Fragment implements View.OnClickListener {
-    private ImageView iw;
-    private TextView info, scoreWin, scoreLoose;
-    private Button gætKnap, spilIgen, resetScore;
+    private TextView info;
+    private Button gætKnap;
     private EditText edit;
     Bundle bundle;
     String brugernavn;
@@ -42,7 +41,7 @@ public class mp_spil_frag extends Fragment implements View.OnClickListener {
     SharedPreferences prefs;
 
     public mp_spil_frag(){
-        System.out.println("spilfrag oprettet");
+        System.out.println("mp_spil_frag oprettet");
     }
 
 
@@ -58,9 +57,6 @@ public class mp_spil_frag extends Fragment implements View.OnClickListener {
         if (bundle!=null){
             brugernavn=bundle.get("brugernavn").toString();
         }
-        System.out.println("winscore = " + prefs.getInt("Score", prefs.getInt("Score", 0)));
-        System.out.println("loosescore = " + prefs.getInt("ScoreLoose", prefs.getInt("ScoreLoose", 0)));
-
 
 
         info = new TextView(getActivity());
@@ -68,16 +64,16 @@ public class mp_spil_frag extends Fragment implements View.OnClickListener {
                 "\nHeld og lykke :)\n");
         tl.addView(info);
         RequestParams rp = new RequestParams();
-        rp.add("username", brugernavn); rp.add("ord","");
+        rp.add("username", brugernavn);
 
-        HttpUtils.post("/galgeleg/gaetBogstavMultiOgLog/"+brugernavn, rp, new JsonHttpResponseHandler() {
+        HttpUtils.post("/galgeleg/multiLog/"+brugernavn, rp, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // If the response is JSONObject instead of expected JSONArray
 
                     Log.d("Galge", "Response from server: " + response);
                 try {
-                    info.setText(response.toString());
+                    info.setText(response.get("key").toString());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -104,15 +100,10 @@ public class mp_spil_frag extends Fragment implements View.OnClickListener {
 
         tl.addView(ll);
 
-        spilIgen = new Button(getActivity());
-        spilIgen.setText("Start forfra");
-        spilIgen.setVisibility(View.VISIBLE);
-        tl.addView(spilIgen);
 
 
 
         gætKnap.setOnClickListener(this);
-        spilIgen.setOnClickListener(this);
 
         sw.addView(tl);
         return sw;
@@ -124,37 +115,14 @@ public class mp_spil_frag extends Fragment implements View.OnClickListener {
             RequestParams rp = new RequestParams();
             rp.add("ord", edit.getText().toString());
 
-            HttpUtils.post("/galgeleg/gaetBogstav/"+brugernavn, rp, new JsonHttpResponseHandler() {
+            HttpUtils.post("/galgeleg/gaetBogstavMultiOgLog/"+brugernavn, rp, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     Log.d("Galge", "Response from server: " + response);
                     try {
                         RequestParams rp = new RequestParams();
                         rp.add("username", brugernavn);
-
-                        HttpUtils.get("/galgeleg/log/"+brugernavn, rp, new JsonHttpResponseHandler() {
-                            @Override
-                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                // If the response is JSONObject instead of expected JSONArray
-
-                                Log.d("Galge", "Response from server: " + response);
-                                try {
-                                    info.setText(response.get("key").toString());
-
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-
-                            }
-
-                            @Override
-                            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                                Log.d("Galge", "Response from server: (onFailure)" + responseString+"Status Code: "+statusCode);
-                            }
-                        });
-
+                        info.setText(response.get("key").toString());
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -170,53 +138,9 @@ public class mp_spil_frag extends Fragment implements View.OnClickListener {
             });
 
         }
-        else if(v == spilIgen){
-            RequestParams rp = new RequestParams();
-            rp.add("username", brugernavn);
-            HttpUtils.post("/galgeleg/nulstil/"+brugernavn, rp, new JsonHttpResponseHandler() {
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    // If the response is JSONObject instead of expected JSONArray
-                    Log.d("Galge", "Response from server: " + response);
-                    try {
-                        RequestParams rp = new RequestParams();
-                        rp.add("username", brugernavn);
-
-                        HttpUtils.get("/galgeleg/log/"+brugernavn, rp, new JsonHttpResponseHandler() {
-                            @Override
-                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                // If the response is JSONObject instead of expected JSONArray
-
-                                Log.d("Galge", "Response from server: " + response);
-                                try {
-                                    info.setText(response.get("key").toString());
 
 
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
 
-
-                            }
-
-                            @Override
-                            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                                Log.d("Galge", "Response from server: (onFailure)" + responseString+"Status Code: "+statusCode);
-                            }
-                        });
-
-
-                    } catch (Exception e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                    Log.d("Galge", "Response from server: (onFailure)" + responseString+"Status Code: "+statusCode);
-                }
-            });
 
         }
 
@@ -226,4 +150,3 @@ public class mp_spil_frag extends Fragment implements View.OnClickListener {
 
 
 
-}
