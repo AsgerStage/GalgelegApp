@@ -113,16 +113,40 @@ public class mp_spil_frag extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         if(v == gætKnap) {
             RequestParams rp = new RequestParams();
-            rp.add("ord", edit.getText().toString());
 
-            HttpUtils.post("/galgeleg/gaetBogstavMultiOgLog/"+brugernavn, rp, new JsonHttpResponseHandler() {
+            HttpUtils.post("/galgeleg/isMyMultiOver/"+brugernavn, rp, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     Log.d("Galge", "Response from server: " + response);
                     try {
-                        RequestParams rp = new RequestParams();
-                        rp.add("username", brugernavn);
-                        info.setText(response.get("key").toString());
+                        if(response.get("key").toString().contains("slut") ) {
+                            info.setText(response.get("key").toString());
+                        }
+                            else{
+                               RequestParams rp2 = new RequestParams();
+                                rp2.add("ord", edit.getText().toString());
+
+                                HttpUtils.post("/galgeleg/gaetBogstavMultiOgLog/"+brugernavn, rp2, new JsonHttpResponseHandler() {
+                                    @Override
+                                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                        Log.d("Galge", "Response from server: " + response);
+                                        try {
+                                            info.setText(response.get("key").toString());
+
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+
+
+                                    }
+
+                                    @Override
+                                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                        Log.d("Galge", "Response from server: (onFailure)" + responseString+"Status Code: "+statusCode);
+                                    }
+                                });
+
+                        }
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -136,6 +160,9 @@ public class mp_spil_frag extends Fragment implements View.OnClickListener {
                     Log.d("Galge", "Response from server: (onFailure)" + responseString+"Status Code: "+statusCode);
                 }
             });
+
+
+
 
         }
 
