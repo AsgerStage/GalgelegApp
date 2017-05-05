@@ -49,16 +49,20 @@ public class multiPlayer_frag extends Fragment implements View.OnClickListener {
                     .commit();
         }
         else if(v == opretLobbyKnap) {
+            createLobby_frag createLobby_frag = new createLobby_frag();
+            createLobby_frag.setArguments(bundle);
             getFragmentManager().beginTransaction()
                     .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-                    .replace(R.id.fragmentindhold, new hovedmenu_frag())
+                    .replace(R.id.fragmentindhold, createLobby_frag)
                     .addToBackStack(null)
                     .commit();
         }
         else{
+            highscore_frag highscore_frag = new highscore_frag();
+            highscore_frag.setArguments(bundle);
             getFragmentManager().beginTransaction()
                     .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-                    .replace(R.id.fragmentindhold, new hovedmenu_frag())
+                    .replace(R.id.fragmentindhold, highscore_frag)
                     .addToBackStack(null)
                     .commit();     }
     }

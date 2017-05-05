@@ -60,13 +60,15 @@ public class mp_spil_frag extends Fragment implements View.OnClickListener {
 
 
         info = new TextView(getActivity());
+        info.setTextSize(15);
         info.setText("Velkommen til Galgelegen!" +
                 "\nHeld og lykke :)\n");
         tl.addView(info);
         RequestParams rp = new RequestParams();
         rp.add("username", brugernavn);
+        rp.add("ord","");
 
-        HttpUtils.post("/galgeleg/multiLog/"+brugernavn, rp, new JsonHttpResponseHandler() {
+        HttpUtils.post("/galgeleg/gaetBogstavMultiOgLog/"+brugernavn, rp, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // If the response is JSONObject instead of expected JSONArray
