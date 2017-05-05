@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -62,6 +63,28 @@ public class logind_frag extends Fragment implements View.OnClickListener {
                         Bundle bundle = new Bundle();
                         bundle.putString("brugernavn",serverResp.getString("brugernavn"));
 
+                        RequestParams rp = new RequestParams();
+                        HttpUtils.post("/galgeleg/clearLobby/"+brugerNavnEdit.getText(), rp, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                // If the response is JSONObject instead of expected JSONArray
+
+                                Log.d("Galge", "Response from server: " + response);
+                                try {
+
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+
+
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                Log.d("Galge", "Response from server: (onFailure)" + responseString+"Status Code: "+statusCode);
+                            }
+                        });
                         hovedmenu_frag hovedmenu_frag = new hovedmenu_frag();
                         hovedmenu_frag.setArguments(bundle);
                             getFragmentManager().beginTransaction()

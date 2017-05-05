@@ -64,6 +64,7 @@ public class spil_frag extends Fragment implements View.OnClickListener {
 
 
         info = new TextView(getActivity());
+        info.setTextSize(25);
         info.setText("Velkommen til Galgelegen!" +
                 "\nHeld og lykke :)\n");
         tl.addView(info);

@@ -59,7 +59,7 @@ public class lobbyWait_frag extends Fragment implements View.OnClickListener{
                                 getFragmentManager().beginTransaction()
                                         .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                                         .replace(R.id.fragmentindhold, mp_spil_frag)
-                                        .addToBackStack(null)
+                                   //     .addToBackStack(null)
                                         .commit();
                             }
                             else{
