@@ -33,9 +33,9 @@ public class singlePlayer_frag extends Fragment implements View.OnClickListener 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rod = inflater.inflate(R.layout.singleplayer, container, false);
         getActivity().setTitle("Singleplayer");
-        bundle =this.getArguments();
-        if (bundle!=null){
-            brugernavn=bundle.get("brugernavn").toString();
+        bundle = this.getArguments();
+        if (bundle != null) {
+            brugernavn = bundle.get("brugernavn").toString();
         }
 
         gammeltSpilKnap = (Button) rod.findViewById(R.id.gammeltSpil_btn);
@@ -46,16 +46,16 @@ public class singlePlayer_frag extends Fragment implements View.OnClickListener 
 
         return rod;
     }
+
     @Override
     public void onClick(View v) {
-        if(v == nytSpilKnap){
+        if (v == nytSpilKnap) {
             RequestParams rp = new RequestParams();
             rp.add("username", brugernavn);
 
-            HttpUtils.post("/galgeleg/nulstil/"+brugernavn, rp, new JsonHttpResponseHandler() {
+            HttpUtils.post("/galgeleg/nulstil/" + brugernavn, rp, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    // If the response is JSONObject instead of expected JSONArray
                     Log.d("Galge", "Response from server: " + response);
                     try {
                         spil_frag spil_frag = new spil_frag();
@@ -74,27 +74,25 @@ public class singlePlayer_frag extends Fragment implements View.OnClickListener 
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                    Log.d("Galge", "Response from server: (onFailure)" + responseString+"Status Code: "+statusCode);
+                    Log.d("Galge", "Response from server: (onFailure)" + responseString + "Status Code: " + statusCode);
                 }
             });
 
 
-        }
-        else if(v == gammeltSpilKnap) {
+        } else if (v == gammeltSpilKnap) {
             RequestParams rp = new RequestParams();
             rp.add("username", brugernavn);
 
-            HttpUtils.post("/galgeleg/isContinueAvailable/"+brugernavn, rp, new JsonHttpResponseHandler() {
+            HttpUtils.post("/galgeleg/isContinueAvailable/" + brugernavn, rp, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    // If the response is JSONObject instead of expected JSONArray
                     try {
                         Log.d("Galge", "Response from server: " + response.get("key"));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                     try {
-                        if(response.get("key").toString().equals("true")) {
+                        if (response.get("key").toString().equals("true")) {
                             spil_frag spil_frag = new spil_frag();
                             spil_frag.setArguments(bundle);
                             getFragmentManager().beginTransaction()
@@ -102,8 +100,7 @@ public class singlePlayer_frag extends Fragment implements View.OnClickListener 
                                     .replace(R.id.fragmentindhold, spil_frag)
                                     .addToBackStack(null)
                                     .commit();
-                        }
-                        else {
+                        } else {
                             Context context = getActivity().getApplicationContext();
                             CharSequence text = "Du har ikke noget spil du kan fortsætte";
                             int duration = Toast.LENGTH_SHORT;
@@ -119,7 +116,7 @@ public class singlePlayer_frag extends Fragment implements View.OnClickListener 
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                    Log.d("Galge", "Response from server: (onFailure)" + responseString+"Status Code: "+statusCode);
+                    Log.d("Galge", "Response from server: (onFailure)" + responseString + "Status Code: " + statusCode);
                 }
             });
 

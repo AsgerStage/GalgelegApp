@@ -7,13 +7,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
@@ -24,7 +22,7 @@ import project.martin.galgelegprojekt.utils.HttpUtils;
  * Created by as on 5/3/17.
  */
 
-public class lobbyWait_frag extends Fragment implements View.OnClickListener{
+public class lobbyWait_frag extends Fragment implements View.OnClickListener {
     Bundle bundle;
     String brugernavn;
     Handler handler;
@@ -34,8 +32,8 @@ public class lobbyWait_frag extends Fragment implements View.OnClickListener{
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rod = inflater.inflate(R.layout.lobbywait_frag, container, false);
-        run=true;
-       bundle = this.getArguments();
+        run = true;
+        bundle = this.getArguments();
         if (bundle != null) {
             brugernavn = bundle.get("brugernavn").toString();
         }
@@ -45,28 +43,27 @@ public class lobbyWait_frag extends Fragment implements View.OnClickListener{
         final Runnable r = new Runnable() {
             public void run() {
                 RequestParams rp = new RequestParams();
-                HttpUtils.get("/galgeleg/isGameStarted/"+brugernavn, rp, new JsonHttpResponseHandler() {
+                HttpUtils.get("/galgeleg/isGameStarted/" + brugernavn, rp, new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
 
                         Log.d("Galge", "Response from server: " + response);
                         try {
-                            if(response.get("key").toString().equals("true")){
-                                run=false;
+                            if (response.get("key").toString().equals("true")) {
+                                run = false;
                                 mp_spil_frag mp_spil_frag = new mp_spil_frag();
                                 mp_spil_frag.setArguments(bundle);
                                 getFragmentManager().beginTransaction()
                                         .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                                         .replace(R.id.fragmentindhold, mp_spil_frag)
-                                   //     .addToBackStack(null)
+                                        //     .addToBackStack(null)
                                         .commit();
-                            }
-                            else{
-                            Log.d("Galge","isGameStarted=false");
-                                if(text.length()<31)
-                                text.append(".");
-                                else{
+                            } else {
+                                Log.d("Galge", "isGameStarted=false");
+                                if (text.length() < 31)
+                                    text.append(".");
+                                else {
                                     text.setText("Venter på at spillet starter.");
                                 }
                             }
@@ -84,12 +81,11 @@ public class lobbyWait_frag extends Fragment implements View.OnClickListener{
                     }
                 });
 
-                if(run)handler.postDelayed(this, 2000);
+                if (run) handler.postDelayed(this, 2000);
             }
         };
 
         handler.postDelayed(r, 2000);
-
 
 
         return rod;

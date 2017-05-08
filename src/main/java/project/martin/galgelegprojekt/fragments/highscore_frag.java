@@ -14,13 +14,11 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
-import project.martin.galgelegprojekt.R;
 import project.martin.galgelegprojekt.utils.HttpUtils;
 
 /**
@@ -44,18 +42,13 @@ public class highscore_frag extends Fragment implements AdapterView.OnItemClickL
         HttpUtils.post("/galgeleg/getScores/", rp, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                // If the response is JSONObject instead of expected JSONArray
 
                 Log.d("Galge", "Response from server: " + response);
                 try {
-
-
                     JSONArray jArray = (JSONArray) response;
                     if (jArray != null) {
                         for (int i = 0; i < jArray.length(); i++) {
-
-                            listen.add(jArray.getJSONObject(i).getString("userID")+" : "+jArray.getJSONObject(i).getInt("score"));
-
+                            listen.add(jArray.getJSONObject(i).getString("userID") + " : " + jArray.getJSONObject(i).getInt("score"));
                         }
                     }
                     adapter.notifyDataSetChanged();
@@ -88,13 +81,10 @@ public class highscore_frag extends Fragment implements AdapterView.OnItemClickL
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 
 
-
-            }
-
-
-
-
     }
+
+
+}
 
 
 

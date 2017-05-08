@@ -14,10 +14,10 @@ import android.widget.TextView;
 public class hjælp_frag extends Fragment {
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         getActivity().setTitle("Hjælp");
         TextView tw = new TextView(getActivity());
-        tw.setText("Her skal stå noget hjælp på et tidspunkt :D");
+        tw.setText("Ikke implementeret");
         return tw;
     }
 }

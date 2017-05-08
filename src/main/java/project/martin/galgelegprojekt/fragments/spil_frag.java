@@ -41,26 +41,25 @@ public class spil_frag extends Fragment implements View.OnClickListener {
 
     SharedPreferences prefs;
 
-    public spil_frag (){
+    public spil_frag() {
         System.out.println("spilfrag oprettet");
     }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         System.out.println("spilfragment oncreateview");
         ScrollView sw = new ScrollView(getActivity());
         TableLayout tl = new TableLayout(getActivity());
         LinearLayout ll = new LinearLayout(getActivity());
         LinearLayout ll2 = new LinearLayout(getActivity());
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        bundle =this.getArguments();
-        if (bundle!=null){
-            brugernavn=bundle.get("brugernavn").toString();
+        bundle = this.getArguments();
+        if (bundle != null) {
+            brugernavn = bundle.get("brugernavn").toString();
         }
         System.out.println("winscore = " + prefs.getInt("Score", prefs.getInt("Score", 0)));
         System.out.println("loosescore = " + prefs.getInt("ScoreLoose", prefs.getInt("ScoreLoose", 0)));
-
 
 
         info = new TextView(getActivity());
@@ -71,14 +70,13 @@ public class spil_frag extends Fragment implements View.OnClickListener {
         RequestParams rp = new RequestParams();
         rp.add("username", brugernavn);
 
-        HttpUtils.get("/galgeleg/synligtOrd/"+brugernavn, rp, new JsonHttpResponseHandler() {
+        HttpUtils.get("/galgeleg/synligtOrd/" + brugernavn, rp, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                // If the response is JSONObject instead of expected JSONArray
 
-                    Log.d("Galge", "Response from server: " + response);
+                Log.d("Galge", "Response from server: " + response);
                 try {
-                    info.setText("Gæt ordet: "+response.get("key").toString());
+                    info.setText("Gæt ordet: " + response.get("key").toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -88,7 +86,7 @@ public class spil_frag extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.d("Galge", "Response from server: (onFailure)" + responseString+"Status Code: "+statusCode);
+                Log.d("Galge", "Response from server: (onFailure)" + responseString + "Status Code: " + statusCode);
             }
         });
 
@@ -111,7 +109,6 @@ public class spil_frag extends Fragment implements View.OnClickListener {
         tl.addView(spilIgen);
 
 
-
         gætKnap.setOnClickListener(this);
         spilIgen.setOnClickListener(this);
 
@@ -121,11 +118,11 @@ public class spil_frag extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if(v == gætKnap) {
+        if (v == gætKnap) {
             RequestParams rp = new RequestParams();
             rp.add("ord", edit.getText().toString());
 
-            HttpUtils.post("/galgeleg/gaetBogstav/"+brugernavn, rp, new JsonHttpResponseHandler() {
+            HttpUtils.post("/galgeleg/gaetBogstav/" + brugernavn, rp, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     Log.d("Galge", "Response from server: " + response);
@@ -133,26 +130,20 @@ public class spil_frag extends Fragment implements View.OnClickListener {
                         RequestParams rp = new RequestParams();
                         rp.add("username", brugernavn);
 
-                        HttpUtils.get("/galgeleg/log/"+brugernavn, rp, new JsonHttpResponseHandler() {
+                        HttpUtils.get("/galgeleg/log/" + brugernavn, rp, new JsonHttpResponseHandler() {
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                // If the response is JSONObject instead of expected JSONArray
-
                                 Log.d("Galge", "Response from server: " + response);
                                 try {
                                     info.setText(response.get("key").toString());
-
-
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-
-
                             }
 
                             @Override
                             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                                Log.d("Galge", "Response from server: (onFailure)" + responseString+"Status Code: "+statusCode);
+                                Log.d("Galge", "Response from server: (onFailure)" + responseString + "Status Code: " + statusCode);
                             }
                         });
 
@@ -166,15 +157,14 @@ public class spil_frag extends Fragment implements View.OnClickListener {
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                    Log.d("Galge", "Response from server: (onFailure)" + responseString+"Status Code: "+statusCode);
+                    Log.d("Galge", "Response from server: (onFailure)" + responseString + "Status Code: " + statusCode);
                 }
             });
 
-        }
-        else if(v == spilIgen){
+        } else if (v == spilIgen) {
             RequestParams rp = new RequestParams();
             rp.add("username", brugernavn);
-            HttpUtils.post("/galgeleg/nulstil/"+brugernavn, rp, new JsonHttpResponseHandler() {
+            HttpUtils.post("/galgeleg/nulstil/" + brugernavn, rp, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     // If the response is JSONObject instead of expected JSONArray
@@ -183,7 +173,7 @@ public class spil_frag extends Fragment implements View.OnClickListener {
                         RequestParams rp = new RequestParams();
                         rp.add("username", brugernavn);
 
-                        HttpUtils.get("/galgeleg/log/"+brugernavn, rp, new JsonHttpResponseHandler() {
+                        HttpUtils.get("/galgeleg/log/" + brugernavn, rp, new JsonHttpResponseHandler() {
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                 // If the response is JSONObject instead of expected JSONArray
@@ -202,7 +192,7 @@ public class spil_frag extends Fragment implements View.OnClickListener {
 
                             @Override
                             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                                Log.d("Galge", "Response from server: (onFailure)" + responseString+"Status Code: "+statusCode);
+                                Log.d("Galge", "Response from server: (onFailure)" + responseString + "Status Code: " + statusCode);
                             }
                         });
 
@@ -215,7 +205,7 @@ public class spil_frag extends Fragment implements View.OnClickListener {
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                    Log.d("Galge", "Response from server: (onFailure)" + responseString+"Status Code: "+statusCode);
+                    Log.d("Galge", "Response from server: (onFailure)" + responseString + "Status Code: " + statusCode);
                 }
             });
 
@@ -223,8 +213,6 @@ public class spil_frag extends Fragment implements View.OnClickListener {
 
 
     }
-
-
 
 
 }

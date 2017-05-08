@@ -18,7 +18,7 @@ public class velkomst_frag extends Fragment implements Runnable {
     Handler handler = new Handler();
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-       View rod = inflater.inflate(R.layout.velkomst, container, false);
+        View rod = inflater.inflate(R.layout.velkomst, container, false);
 
         handler.postDelayed(this, 3000);
 

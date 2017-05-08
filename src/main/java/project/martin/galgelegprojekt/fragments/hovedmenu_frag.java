@@ -38,9 +38,9 @@ public class hovedmenu_frag extends Fragment implements View.OnClickListener {
         View rod = inflater.inflate(R.layout.hovedmenu, container, false);
         setHasOptionsMenu(true);
         getActivity().setTitle("Hovedmenu");
-        bundle =this.getArguments();
-        if (bundle!=null){
-            brugernavn=bundle.get("brugernavn").toString();
+        bundle = this.getArguments();
+        if (bundle != null) {
+            brugernavn = bundle.get("brugernavn").toString();
         }
 
 
@@ -52,16 +52,16 @@ public class hovedmenu_frag extends Fragment implements View.OnClickListener {
 
         return rod;
     }
+
     @Override
     public void onClick(View v) {
-        if(v == multiPlayerKnap){
+        if (v == multiPlayerKnap) {
             RequestParams rp = new RequestParams();
             rp.add("username", brugernavn);
 
-            HttpUtils.post("/galgeleg/startGame/"+brugernavn, rp, new JsonHttpResponseHandler() {
+            HttpUtils.post("/galgeleg/startGame/" + brugernavn, rp, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    // If the response is JSONObject instead of expected JSONArray
                     Log.d("Galge", "Response from login: " + response);
                     try {
                         JSONObject serverResp = new JSONObject(response.toString());
@@ -85,12 +85,11 @@ public class hovedmenu_frag extends Fragment implements View.OnClickListener {
                 }
             });
 
-        }
-        else if(v == singlePlayerKnap) {
+        } else if (v == singlePlayerKnap) {
             RequestParams rp = new RequestParams();
             rp.add("username", brugernavn);
 
-            HttpUtils.post("/galgeleg/playerCheck/"+brugernavn, rp, new JsonHttpResponseHandler() {
+            HttpUtils.post("/galgeleg/playerCheck/" + brugernavn, rp, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     // If the response is JSONObject instead of expected JSONArray
@@ -112,7 +111,7 @@ public class hovedmenu_frag extends Fragment implements View.OnClickListener {
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                    Log.d("Galge", "Response from server: (onFailure)" + responseString+"Status Code: "+statusCode);
+                    Log.d("Galge", "Response from server: (onFailure)" + responseString + "Status Code: " + statusCode);
                 }
             });
 
@@ -125,12 +124,11 @@ public class hovedmenu_frag extends Fragment implements View.OnClickListener {
 
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(id == R.id.settings){
+        if (id == R.id.settings) {
             Intent i = new Intent(getActivity(), indstillinger_akt.class);
             startActivity(i);
             return true;
-        }
-        else if(id == R.id.logout){
+        } else if (id == R.id.logout) {
             Fragment fragment = new logind_frag();
             getFragmentManager().beginTransaction()
                     .replace(R.id.fragmentindhold, fragment)

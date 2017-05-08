@@ -22,9 +22,9 @@ public class multiPlayer_frag extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rod = inflater.inflate(R.layout.multiplayer, container, false);
         getActivity().setTitle("Multiplayer");
-        bundle =this.getArguments();
-        if (bundle!=null){
-            brugernavn=bundle.get("brugernavn").toString();
+        bundle = this.getArguments();
+        if (bundle != null) {
+            brugernavn = bundle.get("brugernavn").toString();
         }
 
         opretLobbyKnap = (Button) rod.findViewById(R.id.opretLobby_btn);
@@ -37,9 +37,10 @@ public class multiPlayer_frag extends Fragment implements View.OnClickListener {
 
         return rod;
     }
+
     @Override
     public void onClick(View v) {
-        if(v == seLobbysKnap){
+        if (v == seLobbysKnap) {
             lobby_frag lobby_frag = new lobby_frag();
             lobby_frag.setArguments(bundle);
             getFragmentManager().beginTransaction()
@@ -47,8 +48,7 @@ public class multiPlayer_frag extends Fragment implements View.OnClickListener {
                     .replace(R.id.fragmentindhold, lobby_frag)
                     .addToBackStack(null)
                     .commit();
-        }
-        else if(v == opretLobbyKnap) {
+        } else if (v == opretLobbyKnap) {
             createLobby_frag createLobby_frag = new createLobby_frag();
             createLobby_frag.setArguments(bundle);
             getFragmentManager().beginTransaction()
@@ -56,14 +56,14 @@ public class multiPlayer_frag extends Fragment implements View.OnClickListener {
                     .replace(R.id.fragmentindhold, createLobby_frag)
                     .addToBackStack(null)
                     .commit();
-        }
-        else{
+        } else {
             highscore_frag highscore_frag = new highscore_frag();
             highscore_frag.setArguments(bundle);
             getFragmentManager().beginTransaction()
                     .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                     .replace(R.id.fragmentindhold, highscore_frag)
                     .addToBackStack(null)
-                    .commit();     }
+                    .commit();
+        }
     }
 }

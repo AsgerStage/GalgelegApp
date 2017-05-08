@@ -44,7 +44,6 @@ public class lobby_frag extends Fragment implements AdapterView.OnItemClickListe
         HttpUtils.post("/galgeleg/getMultiListNames/", rp, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                // If the response is JSONObject instead of expected JSONArray
 
                 Log.d("Galge", "Response from server: " + response);
                 try {
@@ -90,24 +89,21 @@ public class lobby_frag extends Fragment implements AdapterView.OnItemClickListe
         RequestParams rp = new RequestParams();
         rp.add("Hostname", lobbyName);
         rp.add("id", brugernavn);
-        HttpUtils.post("/galgeleg/joinMulti/"+brugernavn, rp, new JsonHttpResponseHandler() {
+        HttpUtils.post("/galgeleg/joinMulti/" + brugernavn, rp, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                // If the response is JSONObject instead of expected JSONArray
+
 
                 Log.d("Galge", "Response from server: " + response);
                 try {
-                  lobbyWait_frag lobbyWait_frag = new lobbyWait_frag();
+                    lobbyWait_frag lobbyWait_frag = new lobbyWait_frag();
                     lobbyWait_frag.setArguments(bundle);
                     getFragmentManager().beginTransaction()
                             .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                             .replace(R.id.fragmentindhold, lobbyWait_frag)
                             .addToBackStack(null)
                             .commit();
-                }
-
-
-                 catch(Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 

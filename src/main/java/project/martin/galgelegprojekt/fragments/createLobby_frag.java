@@ -1,20 +1,17 @@
 package project.martin.galgelegprojekt.fragments;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
@@ -25,8 +22,8 @@ import project.martin.galgelegprojekt.utils.HttpUtils;
  * Created by as on 5/3/17.
  */
 
-public class createLobby_frag extends Fragment implements View.OnClickListener{
-    Button leaveLobby,startGame;
+public class createLobby_frag extends Fragment implements View.OnClickListener {
+    Button leaveLobby, startGame;
     Bundle bundle;
     String brugernavn;
     TextView text;
@@ -35,7 +32,7 @@ public class createLobby_frag extends Fragment implements View.OnClickListener{
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rod = inflater.inflate(R.layout.createlobby_frag, container, false);
-        run=true;
+        run = true;
         bundle = this.getArguments();
         if (bundle != null) {
             brugernavn = bundle.get("brugernavn").toString();
@@ -49,33 +46,33 @@ public class createLobby_frag extends Fragment implements View.OnClickListener{
         text = (TextView) rod.findViewById(R.id.createlobbytext);
 
 
-                RequestParams rp = new RequestParams();
-        rp.add("brugernavn",brugernavn);
-                HttpUtils.post("/galgeleg/newMulti/"+brugernavn, rp, new JsonHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+        RequestParams rp = new RequestParams();
+        rp.add("brugernavn", brugernavn);
+        HttpUtils.post("/galgeleg/newMulti/" + brugernavn, rp, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
 
-                        Log.d("Galge", "Response from server: " + response);
+                Log.d("Galge", "Response from server: " + response);
 
-                        text.setText("Lobbyen er startet. Start spillet får alle er klar");
+                text.setText("Lobbyen er startet. Start spillet får alle er klar");
 
-                    }
+            }
 
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                        Log.d("Galge", "Response from server: (onFailure)" + responseString + "Status Code: " + statusCode);
-                    }
-                });
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.d("Galge", "Response from server: (onFailure)" + responseString + "Status Code: " + statusCode);
+            }
+        });
         return rod;
     }
 
     @Override
     public void onClick(View view) {
-        if(view == leaveLobby){
+        if (view == leaveLobby) {
             RequestParams rp = new RequestParams();
-            rp.add("brugernavn",brugernavn);
-            HttpUtils.post("/galgeleg/leaveLobby/"+brugernavn, rp, new JsonHttpResponseHandler() {
+            rp.add("brugernavn", brugernavn);
+            HttpUtils.post("/galgeleg/leaveLobby/" + brugernavn, rp, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
@@ -92,11 +89,10 @@ public class createLobby_frag extends Fragment implements View.OnClickListener{
                 }
             });
 
-        }
-        else if(view == startGame) {
+        } else if (view == startGame) {
             RequestParams rp = new RequestParams();
-            rp.add("brugernavn",brugernavn);
-            HttpUtils.post("/galgeleg/startGame/"+brugernavn, rp, new JsonHttpResponseHandler() {
+            rp.add("brugernavn", brugernavn);
+            HttpUtils.post("/galgeleg/startGame/" + brugernavn, rp, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     Log.d("Galge", "Response from server: " + response);
