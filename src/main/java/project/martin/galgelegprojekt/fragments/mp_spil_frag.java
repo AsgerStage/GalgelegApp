@@ -125,24 +125,18 @@ public class mp_spil_frag extends Fragment implements View.OnClickListener {
                         if(response.get("key").toString().contains("slut") ) {
                             Toast.makeText(getActivity(), response.get("key").toString(), Toast.LENGTH_LONG).show();
                             info.setText(response.get("key").toString());
+
                             RequestParams rp = new RequestParams();
                             HttpUtils.post("/galgeleg/clearLobby/"+brugernavn, rp, new JsonHttpResponseHandler() {
                                 @Override
                                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                    // If the response is JSONObject instead of expected JSONArray
-
                                     Log.d("Galge", "Response from server: " + response);
                                     try {
-
                                         getFragmentManager().popBackStack();
-
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
-
-
                                 }
-
                                 @Override
                                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                                     Log.d("Galge", "Response from server: (onFailure)" + responseString+"Status Code: "+statusCode);
